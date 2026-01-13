@@ -17,8 +17,18 @@
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: minmax(120px, auto);
       gap: 1.5rem;
+      grid-auto-flow: row dense;
+      align-items: start;
+    }
+
+    @media (min-width: 1600px) {
+      .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: minmax(140px, auto);
+      }
     }
 
     .grid-item {
@@ -57,3 +67,145 @@
       border-radius: 5px;
       margin-top: 0.5rem;
     }
+
+/* Weather output styling */
+#weather-output {
+  background: linear-gradient(135deg, #f7fbff 0%, #eef6ff 100%);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(2, 48, 71, 0.08);
+  color: #012a4a;
+  line-height: 1.45;
+}
+
+#weather-output h1 {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(1, 42, 74, 0.06);
+  color: #012a4a;
+}
+
+#weather-output h2 {
+  margin: 0.6rem 0 0.25rem;
+  font-size: 0.98rem;
+  color: #03527a;
+}
+
+#weather-output h3 {
+  margin: 0.35rem 0 0.15rem;
+  font-size: 0.9rem;
+  color: #043a5b;
+}
+
+#weather-output p {
+  margin: 0.18rem 0;
+  padding: 0;
+  display: inline-block;
+  width: 48%;
+  box-sizing: border-box;
+  color: #0a3a57;
+}
+
+@media (max-width: 640px) {
+  #weather-output p {
+    display: block;
+    width: 100%;
+    flex-wrap: nowrap;
+  }
+}
+
+/* Weather styles */
+#weather-output .city-block {
+  margin-bottom: 1rem;
+}
+
+#weather-output p span.value {
+  font-weight: 600;
+  color: #032f4b;
+}
+
+#weather-output .current-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.6rem;
+}
+
+#weather-output .current-row p {
+  margin: 0;
+  padding: 0.25rem 0.35rem;
+  background: rgba(3,82,122,0.04);
+  border-radius: 6px;
+}
+
+#weather-output .weather-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: auto;
+}
+
+#weather-output .weather-table th,
+#weather-output .weather-table td {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid rgba(1,42,74,0.06);
+  font-size: 0.92rem;
+}
+
+#weather-output .weather-table thead th {
+  background: rgba(1,42,74,0.03);
+  font-weight: 600;
+  color: #023e5b;
+}
+
+#weather-output .forecast-title {
+  text-align: center;
+  font-size: 0.98rem;
+  font-weight: 700;
+  padding: 0.6rem 0.5rem;
+  background: linear-gradient(90deg, rgba(3,82,122,0.04), rgba(1,42,74,0.03));
+  color: #012a4a;
+  border-bottom: 1px solid rgba(1,42,74,0.06);
+}
+
+#weather-output .weather-table tbody tr:nth-child(even) {
+  background: rgba(2,66,100,0.02);
+}
+
+@media (max-width: 540px) {
+  #weather-output .current-row {
+    gap: 0.4rem;
+  }
+  #weather-output .weather-table th,
+  #weather-output .weather-table td {
+    padding: 0.45rem 0.4rem;
+    font-size: 0.88rem;
+  }
+}
+
+#weather-output {
+  overflow-x: auto;
+}
+
+#weather-output .weather-table {
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed; 
+}
+
+#weather-output .weather-table th,
+#weather-output .weather-table td {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-width: 80px; 
+}
+
+/* Hide empty weather container so an empty card doesn't appear */
+#weather-output:empty {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  display: none !important;
+  min-height: 0 !important;
+}
