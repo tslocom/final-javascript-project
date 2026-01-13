@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const catContainer = document.getElementById("cat-output");
     const currencyBtn = document.getElementById('currency-exchange-button')
     const currencyContainer = document.getElementById("currency-output")
+    const githubBtn = document.getElementById("github-user-button");
+    const githubContainer = document.getElementById("github-user-output");
 
     async function getDogImage() {
         const response = await fetch("https://dog.ceo/api/breeds/image/random");
@@ -96,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const response = await fetch("https://v6.exchangerate-api.com/v6/a5e4514e7b6ae5a71eacb3eb/latest/USD");
         const data = await response.json();
         const startingAmount = document.getElementById("currency-amount").value;
-        const rate = document.getElementById("currency-to").value;
+        const rate = document.getElementById("currency-to").value.toUpperCase();
         if (!data.conversion_rates[rate]) {
             currencyContainer.innerHTML = `
                 <div class="error">
@@ -112,12 +114,33 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             currencyContainer.innerHTML = `
                 <div class="result">
-                    <p> ${startingAmount} USD is equal to ${(data.conversion_rates[rate] * startingAmount)}. The exchange rate is ${data.conversion_rates[rate]}</p>
+                    <p> ${startingAmount} USD is equal to ${Math.ceil(data.conversion_rates[rate] * startingAmount * 100) / 100} ${rate}. The exchange rate is ${data.conversion_rates[rate]}</p>
                 </div>
             `;}
     }
 
     currencyBtn.addEventListener("click", getExchangeRate);
+
+    async function getGitHubUser() {
+        const username = document.getElementById("username").value.toUpperCase();
+        const response = await fetch(`https://api.github.com/users/${username}`);
+        if (response.status === 404) {
+            githubContainer.innerHTML = `
+                <div class="error">
+                    <p>User not found. Please try another username.</p>
+                </div>
+            `;
+        } else {
+            const data = await response.json();
+            githubContainer.innerHTML = `
+                <img src="${data.avatar_url}" width="100" />
+                <h2>${data.name || data.login}</h2>
+                <p>${data.bio || 'No bio available'}</p>
+                <p>Followers: ${data.followers} | Repos: ${data.public_repos}</p>
+                <a href="${data.html_url}" target="_blank">View Profile</a>
+                `;}
+        }
+    githubBtn.addEventListener("click", getGitHubUser);
 
 
 

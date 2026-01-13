@@ -43,25 +43,27 @@
 
         <section class="grid-item" id="movies-api">
             <h2>🎮 Trending Movies</h2>
-            <button onclick="getMovies()">Get Movies</button>
+            <button id="movies-button">Get Movies</button>
             <div class="output" id="movies-output"></div>
         </section>
 
         <section class="grid-item" id="github-api">
             <h2>🧑‍💻 GitHub User</h2>
-            <button onclick="getGitHubUser()">Get User</button>
-            <div class="output" id="github-output"></div>
+            <button id="github-user-button">Get User</button>
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="octocat" />
+            <div class="output" id="github-user-output"></div>
         </section>
 
         <section class="grid-item" id="joke-api">
             <h2>🤣 Random Joke</h2>
-            <button onclick="getJoke()">Get Joke</button>
+            <button id="joke-button">Get Joke</button>
             <div class="output" id="joke-output"></div>
         </section>
 
         <section class="grid-item" id="public-api">
             <h2>📚 Public APIs</h2>
-            <button onclick="getPublicApiInfo()">Show One</button>
+            <button id="publicapi-button">Show One</button>
             <div class="output" id="publicapi-output"></div>
         </section>
         </div>
