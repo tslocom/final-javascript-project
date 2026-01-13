@@ -2,6 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const dogBtn = document.getElementById("generate-dog-button");
     const dogContainer = document.getElementById("dog-output");
     const weatherBtn = document.getElementById("get-weather-button");
+    const weatherContainer = document.getElementById("weather-output");
+    const catBtn = document.getElementById("generate-cat-button");
+    const catContainer = document.getElementById("cat-output");
+    const currencyBtn = document.getElementById('currency-exchange-button')
+    const currencyContainer = document.getElementById("currency-output")
 
     async function getDogImage() {
         const response = await fetch("https://dog.ceo/api/breeds/image/random");
@@ -18,8 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     async function getWeather() {
         const response = await fetch("https://api.open-meteo.com/v1/forecast?latitude=36.3126&longitude=-95.6161&daily=sunrise,sunset,temperature_2m_max,temperature_2m_min&current=temperature_2m,relative_humidity_2m,precipitation,apparent_temperature,wind_speed_10m&timezone=America%2FChicago&wind_speed_unit=mph&temperature_unit=fahrenheit&precipitation_unit=inch");
         const data = await response.json();
-        const weatherContainer = document.getElementById("weather-output");
-        console.log(data);
         weatherContainer.innerHTML = `
             <div class="city-block">
                 <h1>Claremore, OK:</h1>
@@ -74,5 +77,48 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     weatherBtn.addEventListener("click", getWeather);
+
+    async function getCatImage() {
+        const response = await fetch("https://api.thecatapi.com/v1/images/search");
+        const data = await response.json();
+        console.log(data);
+        catContainer.innerHTML = ""; //Clear previous content
+        const img=document.createElement("img");
+        img.src = data[0].url;
+        img.alt = "Random Cat";
+        catContainer.appendChild(img);
+
+    }
+
+    catBtn.addEventListener("click", getCatImage);
+
+    async function getExchangeRate() {
+        const response = await fetch("https://v6.exchangerate-api.com/v6/a5e4514e7b6ae5a71eacb3eb/latest/USD");
+        const data = await response.json();
+        const startingAmount = document.getElementById("currency-amount").value;
+        const rate = document.getElementById("currency-to").value;
+        if (!data.conversion_rates[rate]) {
+            currencyContainer.innerHTML = `
+                <div class="error">
+                    <p>Invalid currency code. Please try again.</p>
+                </div>
+            `;
+        } else if (!startingAmount || startingAmount <= 0) {
+            currencyContainer.innerHTML = `
+                <div class="error">
+                    <p>Please enter a valid amount greater than zero.</p>
+                </div>
+            `;
+        } else {
+            currencyContainer.innerHTML = `
+                <div class="result">
+                    <p> ${startingAmount} USD is equal to ${(data.conversion_rates[rate] * startingAmount)}. The exchange rate is ${data.conversion_rates[rate]}</p>
+                </div>
+            `;}
+    }
+
+    currencyBtn.addEventListener("click", getExchangeRate);
+
+
 
 });
