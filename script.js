@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const currencyContainer = document.getElementById("currency-output")
     const githubBtn = document.getElementById("github-user-button");
     const githubContainer = document.getElementById("github-user-output");
+    const moviesBtn = document.getElementById("movies-button");
+    const moviesContainer = document.getElementById("movies-output");
 
     async function getDogImage() {
         const response = await fetch("https://dog.ceo/api/breeds/image/random");
@@ -83,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     async function getCatImage() {
         const response = await fetch("https://api.thecatapi.com/v1/images/search");
         const data = await response.json();
-        console.log(data);
         catContainer.innerHTML = ""; //Clear previous content
         const img=document.createElement("img");
         img.src = data[0].url;
@@ -124,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function getGitHubUser() {
         const username = document.getElementById("username").value.toUpperCase();
         const response = await fetch(`https://api.github.com/users/${username}`);
+        githubContainer.innerHTML = "" //Clear previous content
         if (response.status === 404) {
             githubContainer.innerHTML = `
                 <div class="error">
@@ -142,6 +144,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     githubBtn.addEventListener("click", getGitHubUser);
 
+    async function getMovies() {
+        const response = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=4e4a17c21d8a536b1321ef13de555f40");
+        const data = await response.json();
+        moviesContainer.innerHTML = `
+            <h1>Top 5 Movies This Weeek</h1>
+            <ul>
+                <li>${data.results[0].title}</li>
+                <li>${data.results[1].title}</li>
+                <li>${data.results[2].title}</li>
+                <li>${data.results[3].title}</li>
+                <li>${data.results[4].title}</li>
+            </ul>    
+        `}
 
-
+    moviesBtn.addEventListener("click", getMovies);
 });
