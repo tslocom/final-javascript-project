@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const githubContainer = document.getElementById("github-user-output");
     const moviesBtn = document.getElementById("movies-button");
     const moviesContainer = document.getElementById("movies-output");
+    const jokeBtn = document.getElementById("joke-button");
+    const jokeContainer = document.getElementById("joke-output");
 
     async function getDogImage() {
         const response = await fetch("https://dog.ceo/api/breeds/image/random");
@@ -159,4 +161,17 @@ document.addEventListener("DOMContentLoaded", () => {
         `}
 
     moviesBtn.addEventListener("click", getMovies);
+
+    async function getJoke() {
+        const response = await fetch("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single");
+        const data = await response.json();
+        jokeContainer.innerHTML = ""; //Clear previous content
+        jokeContainer.innerHTML = `
+        <div>
+            <h1>Here's your joke!</h1>
+            <p>${data.joke}<p>
+    `}
+
+    jokeBtn.addEventListener("click", getJoke);
+
 });
